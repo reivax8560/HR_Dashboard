@@ -1,0 +1,144 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+/*************************** PAGES ****************************/
+
+.pages {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 3vw;
+  height: 100%;
+  position: relative;
+}
+
+.pages-title-ctnr {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3vw;
+}
+
+.pages-title {
+  font-size: 2.2vw;
+}
+
+.create-button {
+  background: #388ae7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0 10px;
+  font-size: 1vw;
+  cursor: pointer;
+}
+
+.create-button .faCirclePlus {
+  margin-right: 5px;
+}
+/*********************** BARRE RECHERCHE ***********************/
+.search-input {
+  border: 1px solid #dbdbdb;
+  border-radius: 6px;
+  padding: 0.5vw;
+  margin-bottom: 1vh;
+  align-self: flex-start;
+  min-width: 30vw;
+  font-size: 1.2vw;
+}
+/************************* FORMULAIRES *************************/
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  min-width: 45%;
+}
+
+.detail-absence-employee-name {
+  font-weight: 600;
+  font-size: 1.5vw;
+  color: #388ae7;
+}
+
+.input-ctnr {
+  padding: 0.8vh 0.8vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.input-ctnr label {
+  color: #388ae7;
+  font-weight: 600;
+  font-size: 1.1vw;
+}
+
+.input-ctnr input,
+textarea {
+  border: 1px solid #dddddd;
+  border-radius: 7px;
+  min-width: 18vw;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1vw;
+  padding: 0.8vh 1vw;
+}
+
+.input-ctnr select {
+  border: 1px solid #dddddd;
+  border-radius: 7px;
+  min-width: 20vw;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1vw;
+  padding: 0.8vh 1vw;
+  background: white;
+}
+
+.button-ctnr {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.detail-button-ctnr {
+  margin-top: 2vh;
+}
+
+.modal-btn {
+  padding: 0.9vh 1.5vw;
+  font-size: 1.2vw;
+  margin: 1vh 5vw 1vh 5vw;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 6px;
+  font-weight: 600;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-save-button {
+  background: #4fbd4f;
+}
+
+.modal-cancel-button {
+  background: #ff4747;
+}
+
+.modal-delete-button {
+  color: #ff4747;
+  border: 1px solid #ff4747;
+  background: white;
+}
+
+.error-message {
+  color: red;
+  padding: 1vh 0;
+}

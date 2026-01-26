@@ -1,0 +1,42 @@
+.app-container {
+  display: flex;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.2vw;
+  height: 100vh;
+}
+/********************** SIDEBAR ***************************/
+.sidebar {
+  width: 15vw;
+  padding: 6vh 0vw;
+  background: #388ae7;
+  display: flex;
+}
+
+.sidebar-list {
+  width: 100%;
+}
+
+.sidebar-list li {
+  display: flex;
+}
+
+.sidebar-list a {
+  color: white;
+  font-size: 1.3vw;
+  font-weight: 600;
+  width: 100%;
+  padding: 3vh 2vw;
+}
+
+.active {
+  background: #2d70bd;
+}
+
+.sidebar-icon {
+  margin-right: 1vw;
+}
+/*********************** MAIN CONTENT **************************/
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+}

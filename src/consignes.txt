@@ -1,0 +1,207 @@
+
+*** Roadmap 
+
+Phase 1 – Setup 
+- routing
+- layout
+
+Phase 2 – Modules CRUD (empi. / absences / services) (1–2 semaines)
+- Tables + formulaires
+- Intégration des JSON
+- Tests de base
+
+Phase 3 – Dashboard (1 semaine)
+- Calculs des KPI
+- Intégration des graphiques
+- Mise en forme
+
+Phase 4 – Polish (2–3 jours)
+- Responsive
+- Accessibilité
+- Nettoyage du code
+
+************************************************
+
+*** Tests
+
+Librairies : Vitest ou Testing Library
+
+Fonctionnalités à tester :
+- Validation des formulaires
+- Ajout / suppression d’un employé
+- Filtre des absences
+- Calculs (absentéisme, effectifs)
+
+************************************************
+
+Spécification complète – Projet “Dashboard RH simplifié” (React JS)
+🎯 1. Objectif du projet
+
+L’objectif est de démontrer :
+✔ une architecture React propre
+✔ une UI claire et professionnelle
+✔ la gestion d’un état complexe
+✔ la manipulation de données (CRUD)
+✔ la visualisation sous forme de graphiques
+✔ l’expérience utilisateur (UX) adaptée au monde RH
+
+Ce projet n’a pas vocation à être une application complète, mais une proof-of-concept 
+crédible et utile pour un recruteur.
+
+**********************************************
+
+2.1. MODULE EMPLOYÉS
+
+Affichage de la liste des employés (tableau)
+Fiche détail d’un employé
+Ajout / modification / suppression d’un employé
+
+Champs recommandés :
+Nom / Prénom
+Poste
+Service
+Email professionnel
+Date d’entrée
+Statut (Actif / Inactif)
+
+**********************************************
+
+2.2. MODULE ABSENCES
+
+Liste des absences (tableau)
+Ajout / modification / suppression
+Filtrage par employé / service / type
+
+Champs recommandés :
+
+Employé
+Type d’absence (congé, maladie, RTT, formation…)
+Date de début
+Date de fin
+Statut (validée / en attente)
+
+**********************************************
+
+2.3. MODULE SERVICES / EQUIPES
+
+Liste des services (tableau ou cards)
+Nombre d’employés par service
+Possibilité d’ajouter / modifier / supprimer un service
+
+**********************************************
+
+2.4. DASHBOARD 
+
+Indicateurs clés :
+Nombre total d’employés
+Nombre d’absences en cours
+Top 3 services par effectif
+Taux d’absentéisme (calcul simple)
+Répartition des employés par service (graphique)
+Historique des absences par mois (graphique)
+
+Graphiques recommandés :
+
+Recharts (simple, moderne, facile à intégrer)
+→ Graphiques à barres, en courbes, donut charts
+
+******************************************************************
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                                APPLICATION RH                                │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ SIDEBAR                        │ PAGE – DASHBOARD                            │
+│                                │                                              │
+│ ┌────────────────────────────┐ │  Header                                      │
+│ │  LOGO / NOM APP RH         │ │  ───────────────────────────────────────     │
+│ ├────────────────────────────┤ │                                              │
+│ │  > Dashboard               │ │  Cards KPI                                   │
+│ │  > Employés                │ │                                               │
+│ │  > Absences                │ │   ┌───────────────┐  ┌──────────────┐        │
+│ │  > Services                │ │   │ Total employés│  │ Absences en   │        │
+│ │                            │ │   │      42       │  │   cours : 3   │        │
+│ │                            │ │   └───────────────┘  └──────────────┘        │
+│ │ Paramètres (option)        │ │                                               │
+│ └────────────────────────────┘ │   ┌───────────────┐  ┌──────────────┐        │
+│                                │   │ Répartition   │  │ Taux d’absen-│        │
+│                                │   │ par services  │  │ téisme : 2.3%│        │
+│                                │   └───────────────┘  └──────────────┘        │
+│                                │                                              │
+│                                │  Graphiques                                   │
+│                                │                                              │
+│                                │   ┌────────────────────────────────────────┐  │
+│                                │   │                GRAPH 1                │  │
+│                                │   │  Répartition employés / service       │  │
+│                                │   └────────────────────────────────────────┘  │
+│                                │                                              │
+│                                │   ┌────────────────────────────────────────┐  │
+│                                │   │                GRAPH 2                │  │
+│                                │   │    Historique des absences / mois      │  │
+│                                │   └────────────────────────────────────────┘  │
+│                                │                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ SIDEBAR                 │ PAGE – EMPLOYÉS                                     │
+│                         │                                                     │
+│ > Dashboard             │  Header : "Employés"                                │
+│ > Employés   (actif)    │  [ + Ajouter un employé ] (bouton)                  │
+│ > Absences              │                                                     │
+│ > Services              │  Tableau employés                                   │
+│                         │                                                     │
+│                         │  ┌──────────────────────────────────────────────┐   │
+│                         │  │ Nom     | Service | Poste | Email | Actions │   │
+│                         │  ├──────────────────────────────────────────────┤   │
+│                         │  │ ... lignes ...                                │   │
+│                         │  └──────────────────────────────────────────────┘   │
+│                         │                                                     │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Header : "Ajouter / Modifier un employé"                                    │
+│                                                                              │
+│  ┌───────────────────────────────┐   ┌──────────────────────────────────┐    │
+│  │ Prénom : [__________]         │   │ Date d'entrée : [ 2024-10-05 ]  │    │
+│  │ Nom :    [__________]         │   └──────────────────────────────────┘    │
+│  ├───────────────────────────────┤   ┌──────────────────────────────────┐    │
+│  │ Poste :  [__________]         │   │ Service : [▼ Informatique ]     │    │
+│  └───────────────────────────────┘   └──────────────────────────────────┘    │
+│                                                                              │
+│  Email :   [______________________________ ]                                 │
+│                                                                              │
+│  Statut :  ( ) Actif   ( ) Inactif                                           │
+│                                                                              │
+│  [ Annuler ]     [ Enregistrer ]                                             │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ PAGE – ABSENCES                                                              │
+│                                                                              │
+│ Header : "Absences"                                                          │
+│ [ + Déclarer une absence ]                                                   │
+│                                                                              │
+│ Filtres :                                                                    │
+│ [ Employé ▼ ] [ Type ▼ ] [ Statut ▼ ]                                       │
+│                                                                              │
+│ Tableau :                                                                    │
+│ ┌──────────────────────────────────────────────────────────────────────────┐ │
+│ │ Employé | Type | Début | Fin | Statut | Actions                          │ │
+│ └──────────────────────────────────────────────────────────────────────────┘ │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ PAGE – SERVICES                                                             │
+│                                                                              │
+│ Header : "Services"                                                          │
+│ [ + Ajouter un service ]                                                     │
+│                                                                              │
+│ Cards :                                                                      │
+│                                                                              │
+│  ┌──────────────────────────┐   ┌──────────────────────────┐                 │
+│  │ Informatique             │   │ Ressources Humaines       │                │
+│  │ 12 employés              │   │ 8 employés                 │                │
+│  └──────────────────────────┘   └──────────────────────────┘                 │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
