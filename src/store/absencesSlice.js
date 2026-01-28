@@ -8,7 +8,6 @@ const absencesSlice = createSlice({
   },
   reducers: {
     addAbsence(state, action) {
-      // state.list.push(action.payload);
       state.list.unshift(action.payload);
     },
     removeAbsence(state, action) {
@@ -18,7 +17,6 @@ const absencesSlice = createSlice({
       const index = state.list.findIndex(
         (item) => item.id === action.payload.id
       );
-      // findIndex préferable à map car ne passe pas sur la totalité du tableau
       if (index !== -1) {
         state.list[index] = action.payload;
       }

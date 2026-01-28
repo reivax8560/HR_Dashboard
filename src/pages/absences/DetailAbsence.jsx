@@ -12,17 +12,11 @@ export default function DetailAbsence({
   const [absence, setAbsence] = useState(
     () => absencesForTable.find((item) => item.id === id) ?? {}
   );
-  // le nullish coalescing operator fournit une valeur par défaut
-  // si l’opérande de gauche est null ou undefined.
-  // dans ce cas précis, si find() trouve un objet employé il le renvoie,
-  // sinon l'opérateur renvoie un objet vide
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAbsence((prev) => ({ ...prev, [name]: value }));
   };
-  // [name] => name entre crochets pour que la propriété puisse prendre la valeur
-  // passée (firstName, email...), sinon la propriété aurait toujours la valeur "name"
 
   const editAbsence = (e) => {
     e.preventDefault();

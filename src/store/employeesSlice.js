@@ -17,7 +17,6 @@ const employeesSlice = createSlice({
       const index = state.list.findIndex(
         (item) => item.id === action.payload.id
       );
-      // findIndex préferable à map car ne passe pas sur la totalité du tableau
       if (index !== -1) {
         state.list[index] = action.payload;
       }

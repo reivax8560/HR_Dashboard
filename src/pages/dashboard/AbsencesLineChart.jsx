@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useSelector } from "react-redux";
-////// => graphiques montrant les absences des 6 derniers mois
+
 export default function AbsencesLineChart() {
   const absences = useSelector((state) => state.absences.list);
   ///////////////////// CREATION ARRAY 6 DERNIERS MOIS

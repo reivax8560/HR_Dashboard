@@ -39,7 +39,6 @@ export default function Services() {
     const serviceName = formData.get("name");
     const newId =
       services.length > 0 ? Math.max(...services.map((s) => s.id)) + 1 : 1;
-    // Math.max() renvoie le plus grand nombre parmi ceux passés en paramètres
     dispatch(
       addService({
         id: newId,
