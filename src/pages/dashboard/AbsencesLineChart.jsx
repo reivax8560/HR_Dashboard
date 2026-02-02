@@ -8,9 +8,23 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 export default function AbsencesLineChart() {
   const absences = useSelector((state) => state.absences.list);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" && window.innerWidth <= 768
+  );
+
+  ///////////////// GESTION TAILLE POLICE FORMAT MOBILE //////////////////
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 768);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   ///////////////////// CREATION ARRAY 6 DERNIERS MOIS
   function getLastSixMonths(absencesData) {
     let datas = [];
@@ -24,6 +38,7 @@ export default function AbsencesLineChart() {
       }).format(currentDate);
       datas.push({ month: currentMonth, value: 0 });
     }
+
     //////////////////////// AJOUT DES VALEURS AU ARRAY
     const sixMonthsAgo = new Date(today);
     sixMonthsAgo.setMonth(today.getMonth() - 6);
@@ -42,6 +57,7 @@ export default function AbsencesLineChart() {
     return datas;
   }
   const chartData = getLastSixMonths(absences);
+  
   ///////////////////////// TOOLTIP ///////////////////////////
   function CustomTooltip({ active, payload, label }) {
     if (!active || !payload || !payload.length) return null;
@@ -77,18 +93,19 @@ export default function AbsencesLineChart() {
           dataKey="month"
           axisLine={false}
           tickLine={false}
-          tick={{ fontSize: "1.2vw" }}
+          tick={isMobile ? { fontSize: 11 } : { fontSize: "1.2vw" }}
           padding={{ left: 20 }}
         />
         <YAxis
           axisLine={false}
           tickLine={false}
+          tick={isMobile ? { fontSize: 11 } : { fontSize: "1.2vw" }}
           width={20}
           type="number"
           domain={[0, "dataMax + 1"]}
         />
         <CartesianGrid vertical={false} />
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip content={CustomTooltip} />
       </LineChart>
     </ResponsiveContainer>
   );

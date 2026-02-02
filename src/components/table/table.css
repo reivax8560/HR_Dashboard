@@ -30,3 +30,22 @@ td {
   background-color: white;
   border-radius: 4px;
 }
+
+
+@media screen and (max-width: 768px) {
+  table {
+    font-size: 10px;
+  }
+
+  td, th {
+    padding: 1.5vh 0;
+  }
+
+  .table-delete-button {
+  font-size: 12px;
+  }
+
+  .table-detail-button {
+    font-size: 12px;
+  }
+}

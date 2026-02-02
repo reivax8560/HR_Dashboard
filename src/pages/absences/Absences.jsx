@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCirclePlus,
@@ -17,6 +17,19 @@ export default function Absences() {
   const [globalFilter, setGlobalFilter] = useState("");
   const absencesFromRedux = useSelector((state) => state.absences.list);
   const employees = useSelector((state) => state.employees.list);
+    const [isMobile, setIsMobile] = useState(
+      typeof window !== "undefined" && window.innerWidth <= 768
+    );
+    
+    ///////////////// GESTION TAILLE POLICE FORMAT MOBILE //////////////////
+    useEffect(() => {
+      function handleResize() {
+        setIsMobile(window.innerWidth <= 768);
+      }
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+    
   ////////////////////// MODIF STRUCTURE ABSENCE POUR TABLEAU /////////////////////
   const absencesForTable = [...absencesFromRedux]
     .sort((a, b) => new Date(b.startDate) - new Date(a.startDate))
@@ -31,7 +44,7 @@ export default function Absences() {
       };
     });
   ////////////////////////// CONFIGURATION COLONNES ////////////////////////////
-  const columns = [
+  let columns = [
     { header: "Nom", accessorKey: "employeeName" },
     { header: "Service", accessorKey: "service" },
     {
@@ -43,8 +56,14 @@ export default function Absences() {
       header: "Date de fin",
       accessorKey: "endDate",
       cell: ({ getValue }) => dateFormatFR(getValue()),
-    },
-    { header: "Statut", accessorKey: "status" },
+    }
+  ];
+
+  if (!isMobile) {
+    columns.push({ header: "Statut", accessorKey: "status" });
+  }
+  
+  columns.push(
     {
       header: "Détails",
       cell: ({ row }) => (
@@ -58,8 +77,9 @@ export default function Absences() {
           <FontAwesomeIcon icon={faEllipsisVertical} />
         </button>
       ),
-    },
-  ];
+    }
+  )
+
   //////////////////////////////////////////////////////////////////////////////
   return (
     <div className="pages">
@@ -72,7 +92,7 @@ export default function Absences() {
           }}
         >
           <FontAwesomeIcon icon={faCirclePlus} className="faCirclePlus" />
-          Créer absence
+          {!isMobile && ("Créer absence")} 
         </button>
       </div>
 

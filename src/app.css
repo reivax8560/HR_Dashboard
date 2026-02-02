@@ -44,6 +44,23 @@ a {
 .create-button .faCirclePlus {
   margin-right: 5px;
 }
+
+@media screen and (max-width: 768px) {
+  .pages-title-ctnr {
+    margin: 3vh 0;
+  }
+  .pages-title {
+  font-size: 20px;
+  }
+  .create-button {
+    border-radius: 6px;
+    font-size: 16px;
+    padding: 7px;
+  }
+  .create-button .faCirclePlus {
+    margin-right: 0;
+  }
+}
 /*********************** BARRE RECHERCHE ***********************/
 .search-input {
   border: 1px solid #dbdbdb;
@@ -53,6 +70,14 @@ a {
   align-self: flex-start;
   min-width: 30vw;
   font-size: 1.2vw;
+}
+
+@media screen and (max-width: 768px) {
+  .search-input {
+    font-size: 12px;
+    margin-bottom: 2vh;
+    padding: 1vh 1vw;
+  }
 }
 /************************* FORMULAIRES *************************/
 .form {
@@ -141,4 +166,46 @@ textarea {
 .error-message {
   color: red;
   padding: 1vh 0;
+}
+
+@media screen and (max-width: 768px) {
+  .detail-absence-employee-name {
+    font-size: 14px;
+  }
+
+  .input-ctnr label {
+    font-size: 12px;
+  }
+
+  .input-ctnr input,
+  textarea {
+    font-size: 12px;
+  }
+
+  .input-ctnr select {
+    font-size: 12px;
+  }
+
+  .button-ctnr {
+    padding: 0.8vh 0.8vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .detail-button-ctnr {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .modal-btn {
+    padding: 0.9vh 2vw;
+    font-size: 13px;
+    margin: 1vh 5vw 1vh 5vw;
+    font-weight: 400;
+  }
 }

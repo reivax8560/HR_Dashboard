@@ -40,3 +40,32 @@
   flex: 1;
   overflow-y: auto;
 }
+
+/*********************** FORMAT MOBILE **************************/
+
+@media screen and (max-width: 768px) {
+.app-container {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: stretch;
+  font-size: 12px;
+}
+.sidebar {
+  width: 100%;
+  padding: 0;
+}
+.sidebar-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+}
+.sidebar-list a {
+  font-size: 13px;
+}
+.sidebar-icon {
+  display: none;
+}
+.main-content {
+  width: 100%;
+}
+}

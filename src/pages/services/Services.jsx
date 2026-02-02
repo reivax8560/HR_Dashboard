@@ -1,15 +1,30 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Table from "../../components/table/Table";
 import Modal from "../../components/modal/Modal";
 import { addService, removeService } from "../../store/servicesSlice";
 
+  
 export default function Services() {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const services = useSelector((state) => state.services.list);
+  const [isMobile, setIsMobile] = useState(
+  typeof window !== "undefined" && window.innerWidth <= 768
+);
+
+///////////////// GESTION TAILLE POLICE FORMAT MOBILE //////////////////
+useEffect(() => {
+  function handleResize() {
+    setIsMobile(window.innerWidth <= 768);
+  }
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+
+////////////////////// CONFIG COLONNES ///////////////////////
   const columns = [
     { header: "Nom", accessorKey: "name" },
     {
@@ -49,6 +64,7 @@ export default function Services() {
     setIsModalOpen(false);
   };
 
+  ////////////////////////////////////////////////////////////
   return (
     <div className="pages">
       <div className="pages-title-ctnr">
@@ -61,7 +77,7 @@ export default function Services() {
           }}
         >
           <FontAwesomeIcon icon={faCirclePlus} className="faCirclePlus" />
-          Créer service
+          {!isMobile && "Créer service"}
         </button>
       </div>
 
@@ -78,7 +94,7 @@ export default function Services() {
             <div className="button-ctnr">
               <button
                 type="button"
-                className="form-btn cancel-btn"
+                className="modal-btn modal-cancel-button"
                 onClick={() => {
                   setIsModalOpen(false);
                 }}
@@ -86,7 +102,7 @@ export default function Services() {
                 Annuler
               </button>
 
-              <button type="submit" className="form-btn submit-btn">
+              <button type="submit" className="modal-btn modal-save-button">
                 Enregistrer
               </button>
             </div>

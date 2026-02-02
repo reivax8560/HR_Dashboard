@@ -8,10 +8,24 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 export default function EmployeeBarChart() {
   const employees = useSelector((state) => state.employees.list);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" && window.innerWidth <= 768
+  );
 
+  ///////////////// GESTION TAILLE POLICE FORMAT MOBILE //////////////////
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 768);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  ///////////////// COMPTAGE EMPLOYES PAR SERVICE //////////////////
   const serviceCounts = employees.reduce((acc, employee) => {
     acc[employee.service] = (acc[employee.service] || 0) + 1;
     return acc;
@@ -50,18 +64,19 @@ export default function EmployeeBarChart() {
           dataKey="name"
           axisLine={false}
           tickLine={false}
-          tick={{ fontSize: "1vw" }}
+          tick={isMobile ? { fontSize: 11 } : { fontSize: "1vw" }}
           tickFormatter={(value) => value.slice(0, 6).toUpperCase()}
         />
         <YAxis
           axisLine={false}
           tickLine={false}
+          tick={isMobile ? { fontSize: 11 } : { fontSize: "1.2vw" }}
           width={20}
           type="number"
           domain={[0, "dataMax + 2"]}
         />
         <CartesianGrid vertical={false} />
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip content={CustomTooltip} />
       </BarChart>
     </ResponsiveContainer>
   );

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCirclePlus,
@@ -15,11 +15,31 @@ export default function Employees() {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const employees = useSelector((state) => state.employees.list);
   const services = useSelector((state) => state.services.list);
-  const columns = [
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" && window.innerWidth <= 768
+  );
+  
+  ///////////////// GESTION TAILLE POLICE FORMAT MOBILE //////////////////
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 768);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  
+  ///////////////////// CONFIG COLONNES TABLEAU //////////////////////
+  let columns = [
     { header: "Prénom", accessorKey: "firstName" },
     { header: "Nom", accessorKey: "lastName" },
     { header: "Poste", accessorKey: "position" },
-    { header: "Service", accessorKey: "service" },
+  ];
+
+  if (!isMobile) {
+    columns.push({ header: "Service", accessorKey: "service" });
+  }
+
+  columns.push(
     { header: "Statut", accessorKey: "status" },
     {
       header: "Détails",
@@ -34,9 +54,10 @@ export default function Employees() {
           <FontAwesomeIcon icon={faEllipsisVertical} />
         </button>
       ),
-    },
-  ];
+    }
+  );
 
+  /////////////////////////////////////////////////////////////
   return (
     <div className="pages">
       <div className="pages-title-ctnr">
@@ -48,7 +69,7 @@ export default function Employees() {
           }}
         >
           <FontAwesomeIcon icon={faCirclePlus} className="faCirclePlus" />
-          Créer employé
+          {!isMobile && ("Créer employé")}
         </button>
       </div>
 
