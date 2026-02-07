@@ -37,8 +37,6 @@ Projet conçu dans un cadre **portfolio**, mettant en avant les compétences en 
   - Absences en cours
   - Taux d’absentéisme
 
-/////////////////////////////////////////////////////// détail calculs à fournir
-
 ### 🔹 Qualité & Tests
 - Tests unitaires Vitest/TL
 - Tests d’affichage et de logique métier
