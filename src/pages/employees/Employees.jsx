@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import useMobileResizing from "../../hooks/useMobileResizing";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCirclePlus,
@@ -15,18 +16,7 @@ export default function Employees() {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const employees = useSelector((state) => state.employees.list);
   const services = useSelector((state) => state.services.list);
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" && window.innerWidth <= 768
-  );
-  
-  ///////////////// GESTION TAILLE POLICE FORMAT MOBILE //////////////////
-  useEffect(() => {
-    function handleResize() {
-      setIsMobile(window.innerWidth <= 768);
-    }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const isMobile = useMobileResizing(); 
   
   ///////////////////// CONFIG COLONNES TABLEAU //////////////////////
   let columns = [
@@ -46,6 +36,7 @@ export default function Employees() {
       cell: ({ row }) => (
         <button
           className="table-detail-button"
+          data-testid="employee-detail-button"
           onClick={() => {
             setShowDetailModal(true);
             setSelectedEmployee(row.original.id);

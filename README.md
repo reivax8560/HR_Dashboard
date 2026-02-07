@@ -1,16 +1,119 @@
-# React + Vite
+# HR Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Un tableau de bord RH permettant de gérer les employés, les services et les absences, avec graphiques et indicateurs clés.  
+Projet conçu dans un cadre **portfolio**, mettant en avant les compétences en React, Vite, data-visualisation et tests unitaires.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Démo
 
-## React Compiler
+👉 **Live demo :** https://hr-dashboard-virid.vercel.app/
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🧰 Stack Technique
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend :** React.js + Vite  
+- **Charts :** Recharts  
+- **Tests :** Vitest + Testing Library  
+- **Styling :** CSS / Responsive Design  
+- **Déploiement :** Vercel  
+
+---
+
+## 📊 Fonctionnalités
+
+### 🔹 Gestion & Données
+- Gestion des **employés**, **absences**, **services**
+- Filtrage dynamique des données
+
+### 🔹 Dashboard
+- **Graphiques interactifs** via Recharts :
+  - Bar charts
+  - Line charts
+- **Indicateurs clés** :
+  - Ancienneté moyenne
+  - Nombre total d’employés
+  - Absences en cours
+  - Taux d’absentéisme
+
+/////////////////////////////////////////////////////// détail calculs à fournir
+
+### 🔹 Qualité & Tests
+- Tests unitaires Vitest/TL
+- Tests d’affichage et de logique métier
+
+---
+
+## 📦 Installation & Lancement
+
+```bash
+# Cloner le repo
+git clone <url_du_projet>
+cd hr_dashboard
+
+# Installer les dépendances
+npm install
+
+# Lancer le serveur dev
+npm run dev
+```
+
+---
+
+## 🧪 Lancer les tests
+
+```bash
+npm run test
+```
+
+📝 Les tests couvrent :
+- Logique métier (ex. : calcul d’ancienneté)
+- Rendu des composants
+- Présence des données et indicateurs
+
+---
+
+## 📁 Structure du projet (simplifiée)
+
+```
+src/
+ ├── components/
+ │    └── modal/
+ │    └── table/
+ ├── datas/
+ ├── hooks/
+ ├── layout/
+ ├── pages/
+ │    └── absences/
+ │    └── dashboard/
+ │    └── employees/
+ │    └── services/
+ ├── store/
+ └── utils/
+```
+
+---
+
+## 🎨 UI & Design
+
+- Layout responsive  
+- Colorimétrie simple, orientée data‑visualisation  
+- Composants modulaires réutilisables  
+
+---
+
+## 🎯 Objectif du projet (Portfolio)
+
+Le but est de démontrer :
+- La capacité à concevoir une application front complète  
+- La gestion de data en temps réel côté client  
+- L’intégration de graphiques lisibles et performants  
+- L'écriture de tests unitaires robustes  
+- Une approche propre et documentée
+
+---
+
+## 📄 Licence
+
+Projet personnel — libre consultation à des fins professionnelles.

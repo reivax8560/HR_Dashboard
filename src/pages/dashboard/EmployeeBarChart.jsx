@@ -8,34 +8,20 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import useMobileResizing from "../../hooks/useMobileResizing";
+import getEmployeesPerService from "../../utils/getEmployeesPerService";
 
 export default function EmployeeBarChart() {
   const employees = useSelector((state) => state.employees.list);
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" && window.innerWidth <= 768
-  );
-
-  ///////////////// GESTION TAILLE POLICE FORMAT MOBILE //////////////////
-  useEffect(() => {
-    function handleResize() {
-      setIsMobile(window.innerWidth <= 768);
-    }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const isMobile = useMobileResizing();
 
   ///////////////// COMPTAGE EMPLOYES PAR SERVICE //////////////////
-  const serviceCounts = employees.reduce((acc, employee) => {
-    acc[employee.service] = (acc[employee.service] || 0) + 1;
-    return acc;
-  }, {});
+  const employeesPerService = getEmployeesPerService(employees);
 
-  const data = Object.entries(serviceCounts).map(([name, value]) => ({
+    const data = Object.entries(employeesPerService).map(([name, value]) => ({
     name,
     value,
   }));
-
   /////////////////////////// TOOLTIP ////////////////////////////
   function CustomTooltip({ active, payload, label }) {
     if (!active || !payload || !payload.length) return null;

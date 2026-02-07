@@ -5,12 +5,12 @@ import { useState } from "react";
 
 export default function DetailAbsence({
   setShowDetailModal,
-  absencesForTable,
+  datas,
   id,
 }) {
   const dispatch = useDispatch();
   const [absence, setAbsence] = useState(
-    () => absencesForTable.find((item) => item.id === id) ?? {}
+    () => datas.find((item) => item.id === id) ?? {}
   );
 
   const handleChange = (e) => {

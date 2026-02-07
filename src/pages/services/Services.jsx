@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
+import useMobileResizing from "../../hooks/useMobileResizing";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Table from "../../components/table/Table";
@@ -11,18 +12,7 @@ export default function Services() {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const services = useSelector((state) => state.services.list);
-  const [isMobile, setIsMobile] = useState(
-  typeof window !== "undefined" && window.innerWidth <= 768
-);
-
-///////////////// GESTION TAILLE POLICE FORMAT MOBILE //////////////////
-useEffect(() => {
-  function handleResize() {
-    setIsMobile(window.innerWidth <= 768);
-  }
-  window.addEventListener("resize", handleResize);
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
+  const isMobile = useMobileResizing();
 
 ////////////////////// CONFIG COLONNES ///////////////////////
   const columns = [
@@ -47,6 +37,7 @@ useEffect(() => {
     },
   ];
 
+  ////////////////////// CREATION SERVICE ///////////////////////
   const createService = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
