@@ -9,7 +9,7 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
   const absences = useSelector((state) => state.absences.list);
   const employees = useSelector((state) => state.employees.list);
   const [employee, setEmployee] = useState(
-    () => employees.find((item) => item.id === id) ?? {}
+    () => employees.find((item) => item.id === id) ?? {},
   );
 
   const handleChange = (e) => {
@@ -26,7 +26,7 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
   const deleteEmployee = (e) => {
     if (
       window.confirm(
-        `Supprimer "${employee?.firstName} ${employee?.lastName}" ?`
+        `Supprimer "${employee?.firstName} ${employee?.lastName}" ?`,
       )
     ) {
       e.preventDefault();
@@ -41,7 +41,7 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
   };
 
   return (
-    <Modal isBackgroundDisplayed={true} title="Détail employé">
+    <Modal title="Détail employé" setShowModal={setShowDetailModal}>
       <form className="form" onSubmit={editEmployee}>
         <div className="input-ctnr">
           <label htmlFor="firstName">Prénom</label>

@@ -27,14 +27,14 @@ export default function CreateEmployeeModal({
         email: formData.get("email"),
         entryDate: formData.get("entryDate"),
         status: "Actif",
-      })
+      }),
     );
     form.reset();
     setShowCreateModal(false);
   };
 
   return (
-    <Modal isBackgroundDisplayed={true} title="Création employé">
+    <Modal title="Création employé" setShowModal={setShowCreateModal}>
       <form className="form" onSubmit={createEmployee}>
         <div className="input-ctnr">
           <label htmlFor="firstName">Prénom</label>

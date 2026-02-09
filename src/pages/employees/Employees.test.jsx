@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import Employees from "./Employees.jsx";
 
-// --- création des states employees & services ---
 const employeesReducer = () => ({
   list: [
     {
@@ -28,7 +27,6 @@ const absencesReducer = () => ({
   list: [],
 });
 
-// ------ configuration du store Redux ------
 function renderWithStore(ui) {
   const store = configureStore({
     reducer: {

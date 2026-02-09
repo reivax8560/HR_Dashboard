@@ -18,7 +18,7 @@ export default function CreateAbsenceModal({
     const formData = new FormData(form);
     //////////////////// GESTION ERREUR DATE ////////////////////
     const currentEmployee = employees.find(
-      (item) => item.id === Number(formData.get("employeeId"))
+      (item) => item.id === Number(formData.get("employeeId")),
     );
     if (
       new Date(formData.get("startDate")) < new Date(currentEmployee.entryDate)
@@ -47,7 +47,7 @@ export default function CreateAbsenceModal({
           endDate: formData.get("endDate"),
           status: formData.get("status"),
           comment: formData.get("comment"),
-        })
+        }),
       );
       form.reset();
       setShowCreateModal(false);
@@ -55,7 +55,7 @@ export default function CreateAbsenceModal({
   };
 
   return (
-    <Modal isBackgroundDisplayed={true} title="Création absence">
+    <Modal title="Création absence" setShowModal={setShowCreateModal}>
       <form className="form" onSubmit={createAbsence}>
         <div className="input-ctnr">
           <label htmlFor="employeeId">Employé</label>

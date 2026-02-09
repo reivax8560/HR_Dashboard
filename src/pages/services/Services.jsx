@@ -7,14 +7,13 @@ import Table from "../../components/table/Table";
 import Modal from "../../components/modal/Modal";
 import { addService, removeService } from "../../store/servicesSlice";
 
-  
 export default function Services() {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const services = useSelector((state) => state.services.list);
   const isMobile = useMobileResizing();
 
-////////////////////// CONFIG COLONNES ///////////////////////
+  ////////////////////// CONFIG COLONNES ///////////////////////
   const columns = [
     { header: "Nom", accessorKey: "name" },
     {
@@ -49,7 +48,7 @@ export default function Services() {
       addService({
         id: newId,
         name: serviceName,
-      })
+      }),
     );
     form.reset();
     setIsModalOpen(false);
@@ -75,7 +74,7 @@ export default function Services() {
       <Table data={services} columns={columns} />
 
       {isModalOpen && (
-        <Modal isBackgroundDisplayed={true} title="Création service">
+        <Modal title="Création service" setShowModal={setIsModalOpen}>
           <form className="form" onSubmit={createService}>
             <div className="input-ctnr">
               <label htmlFor="name">Nom</label>

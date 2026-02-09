@@ -3,34 +3,12 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import "./modal.css";
 
 function Modal(props) {
-  const {
-    isBackgroundDisplayed,
-    backgroundColor,
-    title,
-    closureFunction,
-    closureIconSize,
-    classModal = "classModal-default",
-    classTitle = "classTitle-default",
-    children,
-  } = props;
+  const { title, setShowModal, children } = props;
 
   return (
-    <div
-      className={isBackgroundDisplayed ? "classBackground-default" : ""}
-      style={{ background: backgroundColor }}
-    >
-      <div className={classModal}>
-        {closureFunction && (
-          <FontAwesomeIcon
-            icon={faCircleXmark}
-            onClick={closureFunction}
-            className="closureIcon"
-            style={{ fontSize: closureIconSize }}
-          />
-        )}
-
-        {title && <h2 className={classTitle}>{title}</h2>}
-
+    <div className="overlay" onClick={() => setShowModal(false)}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        {title && <h2 className="modal-title">{title}</h2>}
         {children}
       </div>
     </div>

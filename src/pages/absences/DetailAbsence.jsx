@@ -3,14 +3,10 @@ import { useDispatch } from "react-redux";
 import { removeAbsence, updateAbsence } from "../../store/absencesSlice";
 import { useState } from "react";
 
-export default function DetailAbsence({
-  setShowDetailModal,
-  datas,
-  id,
-}) {
+export default function DetailAbsence({ setShowDetailModal, datas, id }) {
   const dispatch = useDispatch();
   const [absence, setAbsence] = useState(
-    () => datas.find((item) => item.id === id) ?? {}
+    () => datas.find((item) => item.id === id) ?? {},
   );
 
   const handleChange = (e) => {
@@ -25,7 +21,7 @@ export default function DetailAbsence({
   };
 
   return (
-    <Modal isBackgroundDisplayed={true} title="Détail absence">
+    <Modal title="Détail absence" setShowModal={setShowDetailModal}>
       <form className="form" onSubmit={editAbsence}>
         <div className="input-ctnr">
           <p className="detail-absence-employee-name">{`${absence?.employeeName} (${absence?.service})`}</p>

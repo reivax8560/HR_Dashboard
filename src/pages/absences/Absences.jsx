@@ -10,7 +10,7 @@ import Table from "../../components/table/Table";
 import dateFormatFR from "../../utils/dateFormatter";
 import DetailAbsence from "./DetailAbsence";
 import CreateAbsenceModal from "./CreateAbsence";
-import getAbsencesFormatted from '../../utils/getAbsencesFormatted'
+import getAbsencesFormatted from "../../utils/getAbsencesFormatted";
 
 export default function Absences() {
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -37,29 +37,27 @@ export default function Absences() {
       header: "Date de fin",
       accessorKey: "endDate",
       cell: ({ getValue }) => dateFormatFR(getValue()),
-    }
+    },
   ];
 
   if (!isMobile) {
     columns.push({ header: "Statut", accessorKey: "status" });
   }
-  
-  columns.push(
-    {
-      header: "Détails",
-      cell: ({ row }) => (
-        <button
-          className="table-detail-button"
-          onClick={() => {
-            setShowDetailModal(true);
-            setSelectedAbsence(row.original.id);
-          }}
-        >
-          <FontAwesomeIcon icon={faEllipsisVertical} />
-        </button>
-      ),
-    }
-  )
+
+  columns.push({
+    header: "Détails",
+    cell: ({ row }) => (
+      <button
+        className="table-detail-button"
+        onClick={() => {
+          setShowDetailModal(true);
+          setSelectedAbsence(row.original.id);
+        }}
+      >
+        <FontAwesomeIcon icon={faEllipsisVertical} />
+      </button>
+    ),
+  });
 
   //////////////////////////////////////////////////////////////////////////////
   return (
@@ -73,7 +71,7 @@ export default function Absences() {
           }}
         >
           <FontAwesomeIcon icon={faCirclePlus} className="faCirclePlus" />
-          {!isMobile && ("Créer absence")} 
+          {!isMobile && "Créer absence"}
         </button>
       </div>
 
