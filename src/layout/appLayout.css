@@ -4,10 +4,11 @@
   font-size: 1.2vw;
   height: 100vh;
 }
+
 /********************** SIDEBAR ***************************/
 .sidebar {
-  width: 15vw;
-  padding: 6vh 0vw;
+  width: 17vw;
+  padding: 8vh 0vw 0vh 0vw;
   background: #388ae7;
   display: flex;
 }
@@ -44,28 +45,55 @@
 /*********************** FORMAT MOBILE **************************/
 
 @media screen and (max-width: 768px) {
-.app-container {
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: stretch;
-  font-size: 12px;
+  .app-container {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: stretch;
+    font-size: 12px;
+  }
+  .sidebar {
+    width: 100%;
+    padding: 0;
+  }
+  .sidebar-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    text-align: center;
+  }
+  .sidebar-list a {
+    font-size: 13px;
+  }
+  .sidebar-icon {
+    display: none;
+  }
+  .main-content {
+    width: 100%;
+  }
 }
-.sidebar {
-  width: 100%;
-  padding: 0;
+
+/*********************** SCREEN READER **************************/
+
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 17vw;
+  background: #fff;
+  color: #153a89;
+  font-weight: bold;
+  outline: none;
+  padding: 8px 16px;
+  transform: translateY(-100%);
+  transition: transform 0.2s ease;
+  /* z-index: 1000; */
 }
-.sidebar-list {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  text-align: center;
+
+.skip-link:focus-visible {
+  transform: translateY(0);
 }
-.sidebar-list a {
-  font-size: 13px;
-}
-.sidebar-icon {
-  display: none;
-}
-.main-content {
-  width: 100%;
-}
+
+.sidebar-list a:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 0;
+  border-radius: 0;
 }

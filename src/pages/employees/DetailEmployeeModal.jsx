@@ -1,47 +1,54 @@
-import Modal from "../../components/modal/Modal";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeEmployee, updateEmployee } from "../../store/employeesSlice";
 import { removeAbsence } from "../../store/absencesSlice";
-import { useState } from "react";
+import Modal from "../../components/modal/Modal";
+import ConfirmationModal from "./ConfirmationModal";
 
-export default function DetailEmployee({ setShowDetailModal, services, id }) {
+export default function DetailEmployeeModal({ closeModal, services, id }) {
   const dispatch = useDispatch();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const absences = useSelector((state) => state.absences.list);
   const employees = useSelector((state) => state.employees.list);
   const [employee, setEmployee] = useState(
     () => employees.find((item) => item.id === id) ?? {},
   );
 
-  const handleChange = (e) => {
+  const openConfirmModal = () => {
+    setShowConfirmModal(true);
+  };
+
+  const closeConfirmModal = () => {
+    setShowConfirmModal(false);
+  };
+
+  //////////////////// MAJ STATE EMPLOYE /////////////////////
+  const updateEmployeeState = (e) => {
     const { name, value } = e.target;
     setEmployee((prev) => ({ ...prev, [name]: value }));
   };
 
+  ////////////////////// MODIF EMPLOYE ///////////////////////
   const editEmployee = (e) => {
     e.preventDefault();
     dispatch(updateEmployee(employee));
-    setShowDetailModal(false);
+    closeModal();
   };
 
-  const deleteEmployee = (e) => {
-    if (
-      window.confirm(
-        `Supprimer "${employee?.firstName} ${employee?.lastName}" ?`,
-      )
-    ) {
-      e.preventDefault();
-      dispatch(removeEmployee(id));
-      absences.forEach((item) => {
-        if (item.employeeId === id) {
-          dispatch(removeAbsence(item.id));
-        }
-      });
-      setShowDetailModal(false);
-    }
+  ////////////////////// SUPPR EMPLOYE ///////////////////////
+  const deleteEmployee = (id) => {
+    dispatch(removeEmployee(id));
+
+    absences.forEach((item) => {
+      if (item.employeeId === id) {
+        dispatch(removeAbsence(item.id));
+      }
+    });
   };
 
+  /////////////////////////////////////////////////////////////////////
   return (
-    <Modal title="Détail employé" setShowModal={setShowDetailModal}>
+    <Modal title="Détail employé" closeModal={closeModal}>
       <form className="form" onSubmit={editEmployee}>
         <div className="input-ctnr">
           <label htmlFor="firstName">Prénom</label>
@@ -50,7 +57,7 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
             name="firstName"
             type="text"
             value={employee?.firstName}
-            onChange={handleChange}
+            onChange={updateEmployeeState}
           />
         </div>
 
@@ -61,7 +68,7 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
             name="lastName"
             type="text"
             value={employee?.lastName}
-            onChange={handleChange}
+            onChange={updateEmployeeState}
           />
         </div>
 
@@ -72,7 +79,7 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
             name="position"
             type="text"
             value={employee?.position}
-            onChange={handleChange}
+            onChange={updateEmployeeState}
           />
         </div>
 
@@ -82,7 +89,7 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
             id="service"
             name="service"
             value={employee?.service}
-            onChange={handleChange}
+            onChange={updateEmployeeState}
           >
             {services.map((item) => {
               return (
@@ -101,7 +108,7 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
             name="email"
             type="email"
             value={employee?.email}
-            onChange={handleChange}
+            onChange={updateEmployeeState}
           />
         </div>
 
@@ -112,7 +119,7 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
             name="entryDate"
             type="date"
             value={employee?.entryDate}
-            onChange={handleChange}
+            onChange={updateEmployeeState}
           />
         </div>
 
@@ -122,7 +129,7 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
             id="status"
             name="status"
             value={employee?.status}
-            onChange={handleChange}
+            onChange={updateEmployeeState}
           >
             <option>Actif</option>
             <option>Inactif</option>
@@ -133,7 +140,7 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
           <button
             type="button"
             className="modal-btn modal-delete-button"
-            onClick={deleteEmployee}
+            onClick={openConfirmModal}
           >
             Supprimer employé
           </button>
@@ -141,9 +148,7 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
             <button
               type="button"
               className="modal-btn modal-cancel-button"
-              onClick={() => {
-                setShowDetailModal(false);
-              }}
+              onClick={closeModal}
             >
               Retour
             </button>
@@ -153,6 +158,17 @@ export default function DetailEmployee({ setShowDetailModal, services, id }) {
           </div>
         </div>
       </form>
+
+      {showConfirmModal && (
+        <ConfirmationModal
+          employeeId={id}
+          closeModal={closeConfirmModal}
+          onConfirm={() => {
+            deleteEmployee(id);
+            closeModal();
+          }}
+        />
+      )}
     </Modal>
   );
 }

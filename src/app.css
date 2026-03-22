@@ -21,6 +21,14 @@ a {
   position: relative;
 }
 
+.services-section {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 100%;
+    position: relative;
+}
+
 .pages-title-ctnr {
   display: flex;
   justify-content: space-between;
@@ -44,6 +52,12 @@ a {
 .create-button .faCirclePlus {
   margin-right: 5px;
 }
+
+/* .create-button:focus-visible {
+  outline: 3px solid #153a89;
+  outline-offset: 4px;
+  border-radius: 8px;
+} */
 
 @media screen and (max-width: 768px) {
   .pages-title-ctnr {
@@ -150,11 +164,15 @@ textarea {
 }
 
 .modal-save-button {
-  background: #4fbd4f;
+  /* background: #4fbd4f; */
+  background: #3076c7;
 }
 
 .modal-cancel-button {
-  background: #ff4747;
+  /* background: #ff4747; */
+  background: #acd3ff;
+  color: #124177;
+  border: 1px solid #124177;
 }
 
 .modal-delete-button {
@@ -209,3 +227,23 @@ textarea {
     font-weight: 400;
   }
 }
+
+/*********************** SCREEN READER **************************/
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+*:focus-visible {
+  outline: 3px solid #153a89;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+

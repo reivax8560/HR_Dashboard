@@ -1,19 +1,60 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useState, useEffect, useRef } from "react";
 import useMobileResizing from "../../hooks/useMobileResizing";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Table from "../../components/table/Table";
-import Modal from "../../components/modal/Modal";
-import { addService, removeService } from "../../store/servicesSlice";
+import CreateServiceModal from "../services/CreateServiceModal";
+import ConfirmationModal from "../services/ConfirmationModal";
 
 export default function Services() {
-  const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
   const services = useSelector((state) => state.services.list);
   const isMobile = useMobileResizing();
+  const titleRef = useRef(null);
+  const createButtonRef = useRef(null);
+  const deleteButtonRef = useRef(null);
 
-  ////////////////////// CONFIG COLONNES ///////////////////////
+  const openCreateModal = () => {
+    createButtonRef.current = document.getElementById("createServiceButton");
+    setShowCreateModal(true);
+  };
+
+  const openConfirmModal = (serviceId) => {
+    deleteButtonRef.current = serviceId;
+    setSelectedService(serviceId);
+    setShowConfirmModal(true);
+  };
+
+  const closeModal = () => {
+    setShowCreateModal(false);
+    setShowConfirmModal(false);
+  };
+
+  ////////////////////// GESTION DU FOCUS ///////////////////////
+  useEffect(() => {
+    titleRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (!showCreateModal && createButtonRef.current) {
+      createButtonRef.current?.focus();
+    }
+  }, [showCreateModal]);
+
+  useEffect(() => {
+    if (!showConfirmModal && deleteButtonRef.current) {
+      const button = document.querySelector(
+        `[data-absence-id="${deleteButtonRef.current}"]`,
+      );
+      button?.focus();
+      deleteButtonRef.current = null;
+    }
+  }, [showConfirmModal]);
+
+  ////////////////////// CONFIG COLONNES TABLE ///////////////////////
   const columns = [
     { header: "Nom", accessorKey: "name" },
     {
@@ -22,82 +63,64 @@ export default function Services() {
         <button
           type="button"
           className="table-delete-button"
-          onClick={() => {
-            if (
-              window.confirm(`Supprimer le service "${row.original.name}" ?`)
-            ) {
-              dispatch(removeService(row.original.id));
-            }
-          }}
+          aria-label={`Supprimer le service ${row.original.name}`}
+          data-absence-id={row.original.id}
+          onClick={() => openConfirmModal(row.original.id)}
         >
-          <FontAwesomeIcon icon={faTrash} />
+          <FontAwesomeIcon icon={faTrash} aria-hidden="true" />
         </button>
       ),
     },
   ];
 
-  ////////////////////// CREATION SERVICE ///////////////////////
-  const createService = (e) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const serviceName = formData.get("name");
-    const newId =
-      services.length > 0 ? Math.max(...services.map((s) => s.id)) + 1 : 1;
-    dispatch(
-      addService({
-        id: newId,
-        name: serviceName,
-      }),
-    );
-    form.reset();
-    setIsModalOpen(false);
-  };
-
   ////////////////////////////////////////////////////////////
   return (
     <div className="pages">
-      <div className="pages-title-ctnr">
-        <h2 className="pages-title">Services</h2>
-        <button
-          className="create-button"
-          type="button"
-          onClick={() => {
-            setIsModalOpen(true);
-          }}
-        >
-          <FontAwesomeIcon icon={faCirclePlus} className="faCirclePlus" />
-          {!isMobile && "Créer service"}
-        </button>
-      </div>
+      <p className="sr-only" id="services-description">
+        Cette page affiche le tableau de gestion des services de l'entreprise.
+        Vous pouvez lire et modifier les données.
+      </p>
 
-      <Table data={services} columns={columns} />
+      <section className="services-section" aria-labelledby="services-title">
+        <div className="pages-title-ctnr">
+          <h2
+            className="pages-title"
+            id="services-title"
+            ref={titleRef}
+            tabIndex={-1}
+            aria-describedby="services-description"
+          >
+            Services
+          </h2>
 
-      {isModalOpen && (
-        <Modal title="Création service" setShowModal={setIsModalOpen}>
-          <form className="form" onSubmit={createService}>
-            <div className="input-ctnr">
-              <label htmlFor="name">Nom</label>
-              <input id="name" name="name" type="text" required />
-            </div>
+          <button
+            className="create-button"
+            type="button"
+            id="createServiceButton"
+            aria-label="Créer un service"
+            onClick={openCreateModal}
+          >
+            <FontAwesomeIcon
+              icon={faCirclePlus}
+              className="faCirclePlus"
+              aria-hidden="true"
+            />
+            {!isMobile && "Créer service"}
+          </button>
+        </div>
 
-            <div className="button-ctnr">
-              <button
-                type="button"
-                className="modal-btn modal-cancel-button"
-                onClick={() => {
-                  setIsModalOpen(false);
-                }}
-              >
-                Annuler
-              </button>
-
-              <button type="submit" className="modal-btn modal-save-button">
-                Enregistrer
-              </button>
-            </div>
-          </form>
-        </Modal>
+        <Table data={services} columns={columns} />
+      </section>
+      {/* ////////////////////////////////// MODALE CREATION SERVICE //////////////////////////// */}
+      {showCreateModal && (
+        <CreateServiceModal services={services} closeModal={closeModal} />
+      )}
+      {/* ////////////////////////////////// MODALE CONFIRM SUPPRESSION //////////////////////////// */}
+      {showConfirmModal && (
+        <ConfirmationModal
+          serviceId={selectedService}
+          closeModal={closeModal}
+        />
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useMobileResizing from "../../hooks/useMobileResizing";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,8 +8,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Table from "../../components/table/Table";
 import dateFormatFR from "../../utils/dateFormatter";
-import DetailAbsence from "./DetailAbsence";
-import CreateAbsenceModal from "./CreateAbsence";
+import DetailAbsenceModal from "./DetailAbsenceModal";
+import CreateAbsenceModal from "./CreateAbsenceModal";
 import getAbsencesFormatted from "../../utils/getAbsencesFormatted";
 
 export default function Absences() {
@@ -20,11 +20,56 @@ export default function Absences() {
   const absences = useSelector((state) => state.absences.list);
   const employees = useSelector((state) => state.employees.list);
   const isMobile = useMobileResizing();
+  const titleRef = useRef(null);
+  const createButtonRef = useRef(null);
+  const detailButtonRef = useRef(null);
 
-  ///////////////// MODIF STRUCTURE ABSENCE POUR TABLEAU ////////////////
+  const openCreateModal = () => {
+    createButtonRef.current = document.getElementById("createAbsenceButton");
+    setShowCreateModal(true);
+  };
+
+  const openDetailModal = (absenceId) => {
+    detailButtonRef.current = absenceId;
+    setSelectedAbsence(absenceId);
+    setShowDetailModal(true);
+  };
+
+  const closeModal = () => {
+    setShowCreateModal(false);
+    setShowDetailModal(false);
+  };
+
+  ////////////////////// GESTION FOCUS ///////////////////////
+  useEffect(() => {
+    titleRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (!showCreateModal && createButtonRef.current) {
+      createButtonRef.current?.focus();
+    }
+  }, [showCreateModal]);
+
+  useEffect(() => {
+    if (!showDetailModal && detailButtonRef.current) {
+      const detailButton = document.querySelector(
+        `[data-absence-id="${detailButtonRef.current}"]`,
+      );
+      if (detailButton) {
+        detailButton.focus();
+      } else {
+        titleRef.current?.focus();
+      }
+
+      detailButtonRef.current = null;
+    }
+  }, [showDetailModal]);
+
+  ///////////////// MODIF STRUCTURE ABSENCE POUR TABLE ////////////////
   const absencesFormatted = getAbsencesFormatted(absences, employees);
 
-  ////////////////////////// CONFIGURATION COLONNES ////////////////////////////
+  ////////////////////////// CONFIG COLONNES TABLE ////////////////////////////
   let columns = [
     { header: "Nom", accessorKey: "employeeName" },
     { header: "Service", accessorKey: "service" },
@@ -49,12 +94,11 @@ export default function Absences() {
     cell: ({ row }) => (
       <button
         className="table-detail-button"
-        onClick={() => {
-          setShowDetailModal(true);
-          setSelectedAbsence(row.original.id);
-        }}
+        data-testid="absence-detail-button"
+        data-absence-id={row.original.id}
+        onClick={() => openDetailModal(row.original.id)}
       >
-        <FontAwesomeIcon icon={faEllipsisVertical} />
+        <FontAwesomeIcon icon={faEllipsisVertical} aria-hidden="true" />
       </button>
     ),
   });
@@ -62,18 +106,39 @@ export default function Absences() {
   //////////////////////////////////////////////////////////////////////////////
   return (
     <div className="pages">
-      <div className="pages-title-ctnr">
-        <h2 className="pages-title">Absences</h2>
-        <button
-          className="create-button"
-          onClick={() => {
-            setShowCreateModal(true);
-          }}
-        >
-          <FontAwesomeIcon icon={faCirclePlus} className="faCirclePlus" />
-          {!isMobile && "Créer absence"}
-        </button>
-      </div>
+      <p className="sr-only" id="absences-description">
+        Cette page affiche le tableau de gestion des absences des employés. Vous
+        pouvez lire et modifier les données.
+      </p>
+
+      <section className="absences-section" aria-labelledby="absences-title">
+        <div className="pages-title-ctnr">
+          <h2
+            className="pages-title"
+            id="absences-title"
+            ref={titleRef}
+            tabIndex={-1}
+            aria-describedby="absences-description"
+          >
+            Absences
+          </h2>
+
+          <button
+            className="create-button"
+            type="button"
+            id="createAbsenceButton"
+            aria-label="Créer une absence"
+            onClick={openCreateModal}
+          >
+            <FontAwesomeIcon
+              icon={faCirclePlus}
+              className="faCirclePlus"
+              aria-hidden="true"
+            />
+            {!isMobile && "Créer absence"}
+          </button>
+        </div>
+      </section>
 
       {/********************** INPUT RECHERCHE *********************/}
 
@@ -98,7 +163,7 @@ export default function Absences() {
 
       {showCreateModal && (
         <CreateAbsenceModal
-          setShowCreateModal={setShowCreateModal}
+          closeModal={closeModal}
           absences={absences}
           employees={employees}
         />
@@ -107,9 +172,9 @@ export default function Absences() {
       {/******************** MODALE DETAIL ABSENCE *******************/}
 
       {showDetailModal && (
-        <DetailAbsence
-          setShowDetailModal={setShowDetailModal}
-          datas={absencesFormatted}
+        <DetailAbsenceModal
+          closeModal={closeModal}
+          absences={absencesFormatted}
           id={selectedAbsence}
         />
       )}

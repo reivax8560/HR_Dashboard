@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 
-// Hook réutilisable pour détecter si l'écran est mobile selon un breakpoint
 export default function useMobileResizing(breakpoint = 768) {
   const isWindowDefined = typeof window !== "undefined";
   const [isMobile, setIsMobile] = useState(
-    isWindowDefined ? window.innerWidth <= breakpoint : false
+    isWindowDefined ? window.innerWidth <= breakpoint : false,
   );
 
   useEffect(() => {

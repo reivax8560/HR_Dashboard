@@ -3,12 +3,13 @@ import { addEmployee } from "../../store/employeesSlice";
 import Modal from "../../components/modal/Modal";
 
 export default function CreateEmployeeModal({
-  setShowCreateModal,
+  closeModal,
   services,
   employees,
 }) {
   const dispatch = useDispatch();
 
+  ////////////////////// CREATION EMPLOYE ///////////////////////
   const createEmployee = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -30,11 +31,12 @@ export default function CreateEmployeeModal({
       }),
     );
     form.reset();
-    setShowCreateModal(false);
+    closeModal();
   };
 
+  ///////////////////////////////////////////////////////////////////
   return (
-    <Modal title="Création employé" setShowModal={setShowCreateModal}>
+    <Modal title="Création employé" closeModal={closeModal}>
       <form className="form" onSubmit={createEmployee}>
         <div className="input-ctnr">
           <label htmlFor="firstName">Prénom</label>
@@ -75,9 +77,7 @@ export default function CreateEmployeeModal({
           <button
             type="button"
             className="modal-btn modal-cancel-button"
-            onClick={() => {
-              setShowCreateModal(false);
-            }}
+            onClick={closeModal}
           >
             Annuler
           </button>

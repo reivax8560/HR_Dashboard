@@ -18,7 +18,7 @@ export default function EmployeeBarChart() {
   ///////////////// COMPTAGE EMPLOYES PAR SERVICE //////////////////
   const employeesPerService = getEmployeesPerService(employees);
 
-    const data = Object.entries(employeesPerService).map(([name, value]) => ({
+  const data = Object.entries(employeesPerService).map(([name, value]) => ({
     name,
     value,
   }));
@@ -44,7 +44,7 @@ export default function EmployeeBarChart() {
   /////////////////////////////////////////////////////////////////
   return (
     <ResponsiveContainer width="100%" height={320}>
-      <BarChart data={data} barSize="10%">
+      <BarChart data={data} barSize="10%" tabIndex={-1}>
         <Bar dataKey="value" fill="#388ae7" radius={[5, 5, 0, 0]} />
         <XAxis
           dataKey="name"

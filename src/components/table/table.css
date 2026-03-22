@@ -31,6 +31,12 @@ td {
   border-radius: 4px;
 }
 
+/* .table-detail-button:focus-visible {
+  outline: 3px solid #153a89;
+  outline-offset: 4px;
+  border-radius: 4px;
+} */
+
 
 @media screen and (max-width: 768px) {
   table {

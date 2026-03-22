@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 import { addAbsence } from "../../store/absencesSlice";
 import Modal from "../../components/modal/Modal";
-import { useState } from "react";
 
 export default function CreateAbsenceModal({
-  setShowCreateModal,
+  closeModal,
   absences,
   employees,
 }) {
@@ -12,11 +12,13 @@ export default function CreateAbsenceModal({
   const [startDateError, setStartDateError] = useState(false);
   const [endDateError, setEndDateError] = useState(false);
 
+  ////////////////////// CREATION ABSENCE ///////////////////////
   const createAbsence = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-    //////////////////// GESTION ERREUR DATE ////////////////////
+
+    //////////////////// GESTION ERREUR DATE
     const currentEmployee = employees.find(
       (item) => item.id === Number(formData.get("employeeId")),
     );
@@ -32,12 +34,12 @@ export default function CreateAbsenceModal({
       setEndDateError(true);
       return;
     } else {
-      //////////////////// CREATION ID ABSENCE /////////////////////
+      //////////////////// CREATION ID ABSENCE
       const newId =
         absences.length > 0
           ? Math.max(...absences.map((item) => item.id)) + 1
           : 1;
-      //////////////////////////////////////////////////////////////
+      //////////////////// DISPATCH
       dispatch(
         addAbsence({
           id: newId,
@@ -50,12 +52,13 @@ export default function CreateAbsenceModal({
         }),
       );
       form.reset();
-      setShowCreateModal(false);
+      closeModal();
     }
   };
 
+  ///////////////////////////////////////////////////////////////////
   return (
-    <Modal title="Création absence" setShowModal={setShowCreateModal}>
+    <Modal title="Création absence" closeModal={closeModal}>
       <form className="form" onSubmit={createAbsence}>
         <div className="input-ctnr">
           <label htmlFor="employeeId">Employé</label>
@@ -112,9 +115,7 @@ export default function CreateAbsenceModal({
           <button
             type="button"
             className="modal-btn modal-cancel-button"
-            onClick={() => {
-              setShowCreateModal(false);
-            }}
+            onClick={closeModal}
           >
             Annuler
           </button>

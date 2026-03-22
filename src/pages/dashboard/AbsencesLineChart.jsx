@@ -18,7 +18,7 @@ export default function AbsencesLineChart() {
 
   //////////// RECUP ABSENCES 6 DERNIERS MOIS ////////////
   const chartData = getLastSixMonths(absences, today);
-  
+
   ///////////////////////// TOOLTIP ///////////////////////////
   function CustomTooltip({ active, payload, label }) {
     if (!active || !payload || !payload.length) return null;
@@ -41,7 +41,7 @@ export default function AbsencesLineChart() {
   /////////////////////////////////////////////////////////////////
   return (
     <ResponsiveContainer width="100%" height={320}>
-      <LineChart data={chartData}>
+      <LineChart data={chartData} tabIndex={-1}>
         <Line
           dataKey="value"
           dot={false}
