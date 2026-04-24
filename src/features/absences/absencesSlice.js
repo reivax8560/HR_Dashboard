@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import absencesData from "../datas/absences.js";
-import getAbsencesApi from "../../api/absences/getAbsencesApi";
-import createAbsenceApi from "../../api/absences/createAbsenceApi";
-import deleteAbsenceApi from "../../api/absences/deleteAbsenceApi";
-import updateAbsenceApi from "../../api/absences/updateAbsenceApi";
+import getAbsencesApi from "../../services/absences/getAbsencesApi";
+import createAbsenceApi from "../../services/absences/createAbsenceApi";
+import deleteAbsenceApi from "../../services/absences/deleteAbsenceApi";
+import updateAbsenceApi from "../../services/absences/updateAbsenceApi";
 
 /////////////////////////////// THUNKS /////////////////////////////////
 export const getAbsencesThunk = createAsyncThunk(

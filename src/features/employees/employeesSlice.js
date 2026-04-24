@@ -1,8 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import fetchEmployeesApi from "../../api/employees/fetchEmployeesApi";
-// import createEmployeeApi from "../../api/employees/createEmployeeApi";
-// import deleteEmployeeApi from "../../api/employees/deleteEmployeeApi";
-// import updateEmployeeApi from "../../api/employees/updateEmployeeApi";
 import fetchEmployeesApi from "../../services/employees/fetchEmployeesApi";
 import createEmployeeApi from "../../services/employees/createEmployeeApi";
 import deleteEmployeeApi from "../../services/employees/deleteEmployeeApi";

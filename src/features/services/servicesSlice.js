@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import servicesData from "../datas/services";
-import getServicesApi from "../../api/services/getServicesApi";
-import createServiceApi from "../../api/services/createServiceApi";
-import deleteServiceApi from "../../api/services/deleteServiceApi";
-import updateServiceApi from "../../api/services/updateServiceApi";
+import getServicesApi from "../../services/services/getServicesApi";
+import createServiceApi from "../../services/services/createServiceApi";
+import deleteServiceApi from "../../services/services/deleteServiceApi";
+import updateServiceApi from "../../services/services/updateServiceApi";
 
 /////////////////////////////// THUNKS /////////////////////////////////
 export const fetchServicesThunk = createAsyncThunk(
