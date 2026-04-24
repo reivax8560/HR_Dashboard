@@ -1,21 +1,21 @@
-import { supabase } from "../supabaseLocal";
-// API local
 export default async function getServicesApi() {
-  const { data, error } = await supabase.from("services").select("*");
-
-  if (error) {
-    throw new Error(error.message);
+  const response = await fetch("/api/services");
+  if (!response.ok) {
+    throw new Error(`${response.status} : ${response.statusText}`);
   }
-
-  return data;
+  const datas = await response.json();
+  return datas;
 }
 
-// API en ligne (prod)
-// export default async function fetchServices() {
-//   const response = await fetch("/api/services");
-//   if (!response.ok) {
-//     throw new Error(`${response.status} : ${response.statusText}`);
+// API local
+// import { supabase } from "../supabaseLocal";
+
+// export default async function getServicesApi() {
+//   const { data, error } = await supabase.from("services").select("*");
+
+//   if (error) {
+//     throw new Error(error.message);
 //   }
-//   const datas = await response.json();
-//   return datas;
+
+//   return data;
 // }

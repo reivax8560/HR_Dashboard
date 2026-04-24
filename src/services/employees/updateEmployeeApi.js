@@ -1,3 +1,16 @@
+export default async function updateEmployeeApi(employee) {
+  const response = await fetch(`/api/employees/${employee.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(employee),
+  });
+  if (!response.ok) {
+    throw new Error(`${response.status}: ${response.statusText}`);
+  }
+  return await response.json();
+}
+
+// API locale (dev)
 // import { supabase } from "../supabaseLocal";
 
 // export default async function updateEmployeeApi(employee) {
@@ -35,15 +48,3 @@
 //     status: updatedEmployee.status,
 //   };
 // }
-
-export default async function updateEmployeeApi(employee) {
-  const response = await fetch(`/api/employees/${employee.id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(employee),
-  });
-  if (!response.ok) {
-    throw new Error(`${response.status}: ${response.statusText}`);
-  }
-  return await response.json();
-}

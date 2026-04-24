@@ -1,8 +1,5 @@
 import supabase from "../_lib/supabase";
-import {
-  formatEmployeeForFrontend,
-  formatEmployeeForDb,
-} from "../_lib/mappers";
+import { formatAbsenceForFrontend, formatAbsenceForDb } from "../_lib/mappers";
 
 export default async function handler(req, res) {
   const { id } = req.query;
@@ -11,35 +8,35 @@ export default async function handler(req, res) {
     /////////////////////////////////////////////////////////// 📖 GET ONE
     if (req.method === "GET") {
       const { data, error } = await supabase
-        .from("employees")
+        .from("absences")
         .select("*")
         .eq("id", id)
         .single();
 
       if (error) throw error;
 
-      return res.status(200).json(formatEmployeeForFrontend(data));
+      return res.status(200).json(formatAbsenceForFrontend(data));
     }
 
     /////////////////////////////////////////////////////////// ✏️ UPDATE
     if (req.method === "PUT") {
-      const payload = formatEmployeeForDb(req.body);
+      const payload = formatAbsenceForDb(req.body);
 
       const { data, error } = await supabase
-        .from("employees")
+        .from("absences")
         .update(payload)
         .eq("id", id)
         .select();
 
       if (error) throw error;
 
-      return res.status(200).json(formatEmployeeForFrontend(data[0]));
+      return res.status(200).json(formatAbsenceForFrontend(data[0]));
     }
 
     /////////////////////////////////////////////////////////// ❌ DELETE
     if (req.method === "DELETE") {
       const { data, error } = await supabase
-        .from("employees")
+        .from("absences")
         .delete()
         .eq("id", id)
         .select();

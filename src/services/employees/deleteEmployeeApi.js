@@ -1,3 +1,15 @@
+export default async function deleteEmployeeApi(id) {
+  const response = await fetch(`/api/employees/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error(`${response.status}: ${response.statusText}`);
+  }
+  const datas = await response.json();
+  return datas;
+}
+
+// API locale (dev)
 // import { supabase } from "../supabaseLocal";
 
 // export default async function deleteEmployeeApi(id) {
@@ -28,14 +40,3 @@
 //     status: deletedEmployee.status,
 //   };
 // }
-
-export default async function deleteEmployeeApi(id) {
-  const response = await fetch(`/api/employees/${id}`, {
-    method: "DELETE",
-  });
-  if (!response.ok) {
-    throw new Error(`${response.status}: ${response.statusText}`);
-  }
-  const datas = await response.json();
-  return datas;
-}

@@ -1,3 +1,12 @@
+export default async function fetchEmployeesApi() {
+  const response = await fetch("/api/employees");
+  if (!response.ok) {
+    throw new Error(`${response.status} : ${response.statusText}`);
+  }
+  const datas = await response.json();
+  return datas;
+}
+
 // API en local
 // import { supabase } from "../supabaseLocal";
 // export default async function fetchEmployeesApi() {
@@ -18,13 +27,3 @@
 //     status: employee.status,
 //   }));
 // }
-
-// API en ligne (prod)
-export default async function fetchEmployeesApi() {
-  const response = await fetch("/api/employees");
-  if (!response.ok) {
-    throw new Error(`${response.status} : ${response.statusText}`);
-  }
-  const datas = await response.json();
-  return datas;
-}

@@ -1,5 +1,8 @@
 import supabase from "../_lib/supabase";
-import { mapFromDb, mapToDb } from "../_lib/mappers";
+import {
+  formatEmployeeForFrontend,
+  formatEmployeeForDb,
+} from "../_lib/mappers";
 
 export default async function handler(req, res) {
   try {
@@ -9,14 +12,14 @@ export default async function handler(req, res) {
 
       if (error) throw error;
 
-      const formatted = data.map(mapFromDb);
+      const formatted = data.map(formatEmployeeForFrontend);
 
       return res.status(200).json(formatted);
     }
 
     /////////////////////////////////////////////////////////// ➕ CREATE
     if (req.method === "POST") {
-      const payload = mapToDb(req.body);
+      const payload = formatEmployeeForDb(req.body);
 
       const { data, error } = await supabase
         .from("employees")
@@ -25,7 +28,7 @@ export default async function handler(req, res) {
 
       if (error) throw error;
 
-      return res.status(201).json(mapFromDb(data[0]));
+      return res.status(201).json(formatEmployeeForFrontend(data[0]));
     }
 
     return res.status(405).json({ error: "Method not allowed" });
