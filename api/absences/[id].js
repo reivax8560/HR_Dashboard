@@ -1,5 +1,8 @@
-import supabase from "../_lib/supabase";
-import { formatAbsenceForFrontend, formatAbsenceForDb } from "../_lib/mappers";
+import supabase from "../_lib/supabase.js";
+import {
+  formatAbsenceForFrontend,
+  formatAbsenceForDb,
+} from "../_lib/mappers.js";
 
 export default async function handler(req, res) {
   const { id } = req.query;

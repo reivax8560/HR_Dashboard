@@ -1,8 +1,8 @@
-import supabase from "../_lib/supabase";
+import supabase from "../_lib/supabase.js";
 import {
   formatEmployeeForFrontend,
   formatEmployeeForDb,
-} from "../_lib/mappers";
+} from "../_lib/mappers.js";
 
 export default async function handler(req, res) {
   const { id } = req.query;
