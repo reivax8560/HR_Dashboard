@@ -2,10 +2,10 @@ import "./app.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppLayout from "./layout/AppLayout";
 
-import Dashboard from "./pages/dashboard/Dashboard";
-import Employees from "./pages/employees/Employees";
-import Absences from "./pages/absences/Absences";
-import Services from "./pages/services/Services";
+import Dashboard from "./features/dashboard/Dashboard";
+import Employees from "./features/employees/Employees";
+import Absences from "./features/absences/Absences";
+import Services from "./features/services/Services";
 
 export default function App() {
   return (
