@@ -1,4 +1,4 @@
-import supabase from "../_lib/supabase.js";
+import supabase from "../_lib/_supabase.js";
 import {
   formatEmployeeForFrontend,
   formatEmployeeForDb,
