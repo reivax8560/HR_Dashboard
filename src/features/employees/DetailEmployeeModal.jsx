@@ -53,13 +53,12 @@ export default function DetailEmployeeModal({ closeModal, services, id }) {
 
   ////////////////////// SUPPR EMPLOYE ///////////////////////
   const deleteEmployee = (id) => {
-    dispatch(deleteEmployeeThunk(id));
-
     absences.forEach((item) => {
       if (item.employeeId === id) {
         dispatch(deleteAbsenceThunk(item.id));
       }
     });
+    dispatch(deleteEmployeeThunk(id));
   };
 
   /////////////////////////////////////////////////////////////////////
