@@ -1,32 +1,27 @@
 import getAbsenteeismRate from "./getAbsenteeismRate";
 
 describe("getAbsenteeismRate", () => {
-  test("calcule correctement le taux t'absentéisme", () => {
-    const date = new Date("2026-01-01");
-    const totalEmployees = 2;
+  test("calcule le taux à partir des absences qui chevauchent le mois écoulé", () => {
+    const date = new Date("2025-03-15T12:00:00");
+    const totalEmployees = 4;
     const absences = [
-      {
-        startDate: "2025-12-24",
-        endDate: "2025-12-31",
-      },
-      {
-        startDate: "2025-12-12",
-        endDate: "2025-12-14",
-      },
-      {
-        startDate: "2025-12-03",
-        endDate: "2025-12-05",
-      },
-      {
-        startDate: "2025-11-01",
-        endDate: "2025-11-02",
-      },
-      {
-        startDate: "2025-10-13",
-        endDate: "2025-10-15",
-      },
+      { startDate: "2025-02-10", endDate: "2025-03-16" },
+      { startDate: "2025-03-10", endDate: "2025-03-18" },
+      { startDate: "2025-03-16", endDate: "2025-03-20" },
+      { startDate: "2025-02-01", endDate: "2025-02-14" },
     ];
-    // (3 abs / 19 j x 2 empl) x 100 = 7,89
-    expect(getAbsenteeismRate(absences, totalEmployees, date)).toBe("7.9");
+
+    expect(getAbsenteeismRate(absences, totalEmployees, date)).toBe("2.6");
+  });
+
+  test("retourne zéro quand aucune absence ne chevauche la période", () => {
+    const absences = [
+      { startDate: "2025-01-01", endDate: "2025-02-01" },
+      { startDate: "2025-03-16", endDate: "2025-03-20" },
+    ];
+
+    expect(
+      getAbsenteeismRate(absences, 3, new Date("2025-03-15T12:00:00")),
+    ).toBe("0.0");
   });
 });

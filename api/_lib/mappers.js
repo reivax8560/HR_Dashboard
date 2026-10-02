@@ -21,6 +21,7 @@ export function formatEmployeeForFrontend(employee) {
     email: employee.email,
     entryDate: employee.entry_date,
     status: employee.status,
+    deleted: employee.deleted ?? false,
   };
 }
 
@@ -45,5 +46,6 @@ export function formatAbsenceForFrontend(absence) {
     endDate: absence.end_date,
     status: absence.status,
     comment: absence.comment,
+    deleted: absence.deleted ?? false,
   };
 }

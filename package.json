@@ -9,10 +9,12 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
+    "test:unit": "vitest run",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "cypress:ui": "cypress open",
-    "cypress": "cypress run"
+    "cypress": "cypress run",
+    "test:e2e": "cypress run"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.1.0",

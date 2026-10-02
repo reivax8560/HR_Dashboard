@@ -7,6 +7,8 @@ import {
   faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
 import Table from "../../components/table/Table";
+import ErrorFallback from "../../components/ErrorFallback";
+import Loader from "../../components/loader/Loader";
 import dateFormatFR from "../../utils/dateFormatter";
 import DetailAbsenceModal from "./DetailAbsenceModal";
 import CreateAbsenceModal from "./CreateAbsenceModal";
@@ -99,6 +101,24 @@ export default function Absences() {
 
   ///////////////// MODIF STRUCTURE ABSENCE POUR TABLE ////////////////
   const absencesFormatted = getAbsencesFormatted(absences, employees);
+  const showEmptyErrorPage = absencesError && absences.length === 0;
+  const isInitialLoading =
+    (absencesLoading && absences.length === 0) ||
+    (employeesLoading && employees.length === 0);
+
+  if (isInitialLoading) {
+    return <Loader label="Chargement des absences" />;
+  }
+
+  if (showEmptyErrorPage) {
+    return (
+      <ErrorFallback
+        title="Impossible de charger les absences"
+        message={absencesError}
+        onRetry={() => dispatch(getAbsencesThunk())}
+      />
+    );
+  }
 
   ////////////////////////// CONFIG COLONNES TABLE ////////////////////////////
   let columns = [
@@ -180,6 +200,16 @@ export default function Absences() {
         placeholder="Rechercher..."
         className="search-input"
       />
+
+      {/********************** LOADING / ERROR *********************/}
+
+      {absencesError && absences.length > 0 && (
+        <div className="error-message" role="alert">
+          {absencesError && absencesError.includes("chevauche")
+            ? `Création impossible : ${absencesError}`
+            : `Impossible de rafraîchir les absences : ${absencesError}`}
+        </div>
+      )}
 
       {/********************** TABLEAU ABSENCES *********************/}
 

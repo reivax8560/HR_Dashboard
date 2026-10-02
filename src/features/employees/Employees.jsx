@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
 import useMobileResizing from "../../hooks/useMobileResizing";
 import Table from "../../components/table/Table";
+import ErrorFallback from "../../components/ErrorFallback";
+import Loader from "../../components/loader/Loader";
 import CreateEmployeeModal from "./CreateEmployeeModal";
 import DetailEmployeeModal from "./DetailEmployeeModal";
 import { fetchEmployeesThunk } from "./employeesSlice";
@@ -95,6 +97,25 @@ export default function Employees() {
     }
   }, [showDetailModal]);
 
+  const showEmptyErrorPage = employeesError && employees.length === 0;
+  const isInitialLoading =
+    (employeesLoading && employees.length === 0) ||
+    (servicesLoading && services.length === 0);
+
+  if (isInitialLoading) {
+    return <Loader label="Chargement des employés" />;
+  }
+
+  if (showEmptyErrorPage) {
+    return (
+      <ErrorFallback
+        title="Impossible de charger les employés"
+        message={employeesError}
+        onRetry={() => dispatch(fetchEmployeesThunk())}
+      />
+    );
+  }
+
   ///////////////////// CONFIG COLONNES TABLE //////////////////////
   let columns = [
     { header: "Prénom", accessorKey: "firstName" },
@@ -160,14 +181,19 @@ export default function Employees() {
         </div>
       </section>
 
-      {/********************** TABLEAU EMPLOYES *********************/}
-
-      <Table data={employees} columns={columns} />
-
       {/********************** LOADING / ERROR *********************/}
 
       {employeesLoading && <p>LOADING</p>}
       {employeesError && <p>{employeesError}</p>}
+
+      {employeesError && employees.length > 0 && (
+        <div className="error-message" role="alert">
+          Impossible de rafraîchir les employés : {employeesError}
+        </div>
+      )}
+      {/********************** TABLEAU EMPLOYES *********************/}
+
+      {!employeesError && <Table data={employees} columns={columns} />}
 
       {/******************** MODALE CREATION *******************/}
       {showCreateModal && (

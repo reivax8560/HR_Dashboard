@@ -1,24 +1,35 @@
-// npm run cypress -- --spec "cypress/e2e/employees/edit.cy.js"
+import { stubApiRoutes } from "../../support/apiStubs";
 
 describe("Edition d'un employé", () => {
-    it("modifie un employé et l’affiche dans le tableau", () => {
-        cy.visit("/employees");
-        ///////////////////////////////// CLIC BOUTON DETAIL
-        cy.get("button[data-testid='employee-detail-button']").eq(0).click();
-        ///////////////////////////////// MODIF DETAIL EMPLOYE (MODALE)
-        cy.get("input[name='firstName']").clear().type("bob");
-        cy.get("input[name='lastName']").clear().type("morane");
-        cy.get("input[name='position']").clear().type("aventurier");
-        cy.get("select[name='service']").select("Communication");
-        cy.get("input[name='email']").clear().type("moraneb@test.com");
-        cy.get("input[name='entryDate']").clear().type("2011-01-01");
-        cy.get("select[name='status']").select("Inactif");
-        cy.get("button[type='submit']").click();
-        ///////////////////////////////// VERIF AFFICHAGE TABLEAU
-        cy.contains("bob").should("exist");
-        cy.contains("morane").should("exist");
-        cy.contains("aventurier").should("exist");
-        cy.contains("Communication").should("exist");
-        cy.contains("Inactif").should("exist");
-    })
-})
+  beforeEach(() => {
+    stubApiRoutes();
+  });
+
+  it("met à jour un employé avec son identifiant", () => {
+    cy.visit("/employees");
+    cy.get("[data-testid='employee-detail-button']").first().click();
+    cy.get("input[name='firstName']").clear().type("Bob");
+    cy.get("input[name='lastName']").clear().type("Morane");
+    cy.get("input[name='position']").clear().type("Aventurier");
+    cy.get("select[name='service']").select("Communication");
+    cy.get("input[name='email']").clear().type("bob.morane@example.test");
+    cy.get("input[name='entryDate']").clear().type("2011-01-01");
+    cy.get("select[name='status']").select("Inactif");
+    cy.get("button[type='submit']").click();
+
+    cy.wait("@updateEmployee").then(({ request, response }) => {
+      expect(request.url).to.include("/api/employees/1");
+      expect(request.body).to.include({
+        id: 1,
+        firstName: "Bob",
+        lastName: "Morane",
+        status: "Inactif",
+      });
+      expect(response.statusCode).to.equal(200);
+    });
+
+    cy.contains("Bob").should("be.visible");
+    cy.contains("Morane").should("be.visible");
+    cy.contains("Aventurier").should("be.visible");
+  });
+});

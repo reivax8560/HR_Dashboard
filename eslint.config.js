@@ -46,11 +46,12 @@ export default defineConfig([
   },
   // Bloc Cypress
   {
-    files: ["cypress/**/*.cy.js", "cypress/**/*.cy.jsx"],
+    files: ["cypress/**/*.{js,jsx}"],
     languageOptions: {
       globals: {
         describe: "readonly",
         it: "readonly",
+        expect: "readonly",
         cy: "readonly",
         before: "readonly",
         beforeEach: "readonly",

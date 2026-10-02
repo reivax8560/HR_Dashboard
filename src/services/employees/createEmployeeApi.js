@@ -1,49 +1,39 @@
+import apiRequest from "../apiRequest";
+import { isValidEmail, isValidDate } from "../datasValidation";
+
 export default async function createEmployeeApi(employee) {
-  const response = await fetch("/api/employees", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(employee),
-  });
-  if (!response.ok) {
-    throw new Error(`${response.status}: ${response.statusText}`);
+  try {
+    // Vérifier si les données sont valides
+    if (
+      employee.firstName === "" ||
+      employee.lastName === "" ||
+      employee.position === "" ||
+      employee.service === "" ||
+      employee.email === "" ||
+      employee.entryDate === ""
+    ) {
+      throw new Error("Des données sont manquantes pour créer l'employé.");
+    }
+
+    // Valider le format de l'email
+    if (!isValidEmail(employee.email)) {
+      throw new Error("Le format de l'email est invalide.");
+    }
+
+    // Valider la date d'entrée
+    if (!isValidDate(employee.entryDate)) {
+      throw new Error(
+        "Le format de la date d'entrée est invalide (YYYY-MM-DD).",
+      );
+    }
+
+    return await apiRequest("/api/employees", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(employee),
+    });
+  } catch (error) {
+    console.error("Erreur globale dans createEmployeeApi:", error);
+    throw error;
   }
-  return await response.json();
 }
-
-// API locale (dev)
-// import { supabase } from "../supabaseLocal";
-
-// export default async function createEmployeeApi(employee) {
-//   const formattedEmployee = {
-//     id: employee.id,
-//     first_name: employee.firstName,
-//     last_name: employee.lastName,
-//     position: employee.position,
-//     service: employee.service,
-//     email: employee.email,
-//     entry_date: employee.entryDate,
-//     status: employee.status,
-//   };
-
-//   const { data, error } = await supabase
-//     .from("employees")
-//     .insert([formattedEmployee])
-//     .select();
-
-//   if (error) {
-//     throw new Error(error.message);
-//   }
-
-//   const newEmployee = data[0];
-
-//   return {
-//     id: newEmployee.id,
-//     firstName: newEmployee.first_name,
-//     lastName: newEmployee.last_name,
-//     position: newEmployee.position,
-//     service: newEmployee.service,
-//     email: newEmployee.email,
-//     entryDate: newEmployee.entry_date,
-//     status: newEmployee.status,
-//   };
-// }

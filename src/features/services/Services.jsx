@@ -4,6 +4,8 @@ import useMobileResizing from "../../hooks/useMobileResizing";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Table from "../../components/table/Table";
+import ErrorFallback from "../../components/ErrorFallback";
+import Loader from "../../components/loader/Loader";
 import CreateServiceModal from "../services/CreateServiceModal";
 import ConfirmationModal from "../services/ConfirmationModal";
 import { fetchServicesThunk, deleteServiceThunk } from "./servicesSlice";
@@ -81,6 +83,23 @@ export default function Services() {
     }
   }, [showConfirmModal]);
 
+  const showEmptyErrorPage = servicesError && services.length === 0;
+  const isInitialLoading = servicesLoading && services.length === 0;
+
+  if (isInitialLoading) {
+    return <Loader label="Chargement des services" />;
+  }
+
+  if (showEmptyErrorPage) {
+    return (
+      <ErrorFallback
+        title="Impossible de charger les services"
+        message={servicesError}
+        onRetry={() => dispatch(fetchServicesThunk())}
+      />
+    );
+  }
+
   ////////////////////// CONFIG COLONNES TABLE ///////////////////////
   const columns = [
     { header: "Nom", accessorKey: "name" },
@@ -135,6 +154,12 @@ export default function Services() {
             {!isMobile && "Créer service"}
           </button>
         </div>
+
+        {servicesError && services.length > 0 && (
+          <div className="error-message" role="alert">
+            Impossible de rafraîchir les services : {servicesError}
+          </div>
+        )}
 
         <Table data={services} columns={columns} />
       </section>

@@ -103,7 +103,7 @@ const employeesSlice = createSlice({
       })
       .addCase(deleteEmployeeThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.list = state.list.filter((item) => item.id !== action.payload);
+        state.list = state.list.filter((item) => item.id !== action.payload.id);
       })
       .addCase(deleteEmployeeThunk.rejected, (state, action) => {
         state.loading = false;

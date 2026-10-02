@@ -10,6 +10,7 @@ import getEmployeesPerService from "../../utils/getEmployeesPerService";
 import getLastSixMonths from "../../utils/getLastSixMonths";
 import { fetchEmployeesThunk } from "../../features/employees/employeesSlice";
 import { getAbsencesThunk } from "../../features/absences/absencesSlice";
+import Loader from "../../components/loader/Loader";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -61,6 +62,8 @@ export default function Dashboard() {
   /////////////////////////// DONNÉES DIAGRAMMES ///////////////////////
   const employeesPerService = getEmployeesPerService(employees);
   const lastSixMonths = getLastSixMonths(absences, today);
+  const employeesReady = !employeesLoading || employees.length > 0;
+  const absencesReady = !absencesLoading || absences.length > 0;
 
   /////////////////////////////////////////////////////////
   return (
@@ -94,7 +97,11 @@ export default function Dashboard() {
           onFocus={() => handleAriaLabel(`Total employés : ${totalEmployees}`)}
         >
           <h3>Total employés</h3>
-          <p>{totalEmployees}</p>
+          {employeesReady ? (
+            <p>{totalEmployees}</p>
+          ) : (
+            <Loader variant="inline" label="Chargement" />
+          )}
         </article>
 
         <article
@@ -106,7 +113,11 @@ export default function Dashboard() {
           }
         >
           <h3>Absences en cours</h3>
-          <p>{currentAbsences.length}</p>
+          {absencesReady ? (
+            <p>{currentAbsences.length}</p>
+          ) : (
+            <Loader variant="inline" label="Chargement" />
+          )}
         </article>
 
         <article
@@ -118,7 +129,11 @@ export default function Dashboard() {
           }
         >
           <h3>Ancienneté moyenne</h3>
-          <p>{`${seniorityAverage} ans`}</p>
+          {employeesReady ? (
+            <p>{`${seniorityAverage} ans`}</p>
+          ) : (
+            <Loader variant="inline" label="Chargement" />
+          )}
         </article>
 
         <article
@@ -130,7 +145,11 @@ export default function Dashboard() {
           }
         >
           <h3>Taux d'absentéisme</h3>
-          <p>{absenteeism}%</p>
+          {employeesReady && absencesReady ? (
+            <p>{absenteeism}%</p>
+          ) : (
+            <Loader variant="inline" label="Chargement" />
+          )}
         </article>
 
         <article
@@ -150,7 +169,11 @@ export default function Dashboard() {
           <p className="sr-only" id="chart-employees-desc">
             Diagramme en barres comparant les effectifs par service.
           </p>
-          <EmployeeBarChart />
+          {employeesReady ? (
+            <EmployeeBarChart />
+          ) : (
+            <Loader variant="inline" label="Chargement du graphique" />
+          )}
         </article>
 
         <article
@@ -170,7 +193,11 @@ export default function Dashboard() {
           <p className="sr-only" id="chart-absences-desc">
             Diagramme en courbe illustrant les absences par mois.
           </p>
-          <AbsencesLineChart />
+          {absencesReady ? (
+            <AbsencesLineChart />
+          ) : (
+            <Loader variant="inline" label="Chargement du graphique" />
+          )}
         </article>
       </div>
     </div>
