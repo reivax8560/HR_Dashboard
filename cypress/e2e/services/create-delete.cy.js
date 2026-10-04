@@ -12,7 +12,7 @@ describe("Gestion des services", () => {
     cy.get("button[type='submit']").click();
 
     cy.wait("@createService").then(({ request, response }) => {
-      expect(request.body).to.deep.equal({ id: 4, name: "Juridique" });
+      expect(request.body).to.deep.equal({ id: 9, name: "Juridique" });
       expect(response.statusCode).to.equal(201);
     });
     cy.contains("Juridique").should("be.visible");

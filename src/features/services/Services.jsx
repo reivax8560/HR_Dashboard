@@ -17,6 +17,7 @@ export default function Services() {
   // const services = useSelector((state) => state.services.list);
   const {
     list: services,
+    ids: serviceIds,
     loading: servicesLoading,
     error: servicesError,
   } = useSelector((state) => state.services);
@@ -165,7 +166,7 @@ export default function Services() {
       </section>
       {/* ////////////////////////////////// MODALE CREATION SERVICE //////////////////////////// */}
       {showCreateModal && (
-        <CreateServiceModal services={services} closeModal={closeModal} />
+        <CreateServiceModal serviceIds={serviceIds} closeModal={closeModal} />
       )}
       {/* ////////////////////////////////// MODALE CONFIRM SUPPRESSION //////////////////////////// */}
       {showConfirmModal && (

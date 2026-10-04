@@ -2,7 +2,7 @@ import Modal from "../../components/modal/Modal";
 import { useDispatch } from "react-redux";
 import { createServiceThunk } from "./servicesSlice";
 
-export default function CreateServiceModal({ services, closeModal }) {
+export default function CreateServiceModal({ serviceIds, closeModal }) {
   const dispatch = useDispatch();
 
   ////////////////////// CREATION SERVICE ///////////////////////
@@ -12,7 +12,7 @@ export default function CreateServiceModal({ services, closeModal }) {
     const formData = new FormData(form);
     const serviceName = formData.get("name");
     const newId =
-      services.length > 0 ? Math.max(...services.map((s) => s.id)) + 1 : 1;
+      serviceIds.length > 0 ? Math.max(...serviceIds) + 1 : 1;
     dispatch(
       createServiceThunk({
         id: newId,

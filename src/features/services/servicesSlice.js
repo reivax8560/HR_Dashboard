@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import servicesData from "../datas/services";
 import getServicesApi from "../../services/services/getServicesApi";
+import getServiceIdsApi from "../../services/services/getServiceIdsApi";
 import createServiceApi from "../../services/services/createServiceApi";
 import deleteServiceApi from "../../services/services/deleteServiceApi";
 import updateServiceApi from "../../services/services/updateServiceApi";
@@ -9,9 +10,11 @@ import updateServiceApi from "../../services/services/updateServiceApi";
 export const fetchServicesThunk = createAsyncThunk(
   "services/fetchServices",
   async () => {
-    const data = await getServicesApi();
-    // console.log("DATA:", data);
-    return data;
+    const [services, ids] = await Promise.all([
+      getServicesApi(),
+      getServiceIdsApi(),
+    ]);
+    return { services, ids };
   },
 );
 
@@ -47,6 +50,7 @@ const servicesSlice = createSlice({
   name: "services",
   initialState: {
     list: [],
+    ids: [],
     loading: false,
     error: null,
   },
@@ -60,7 +64,8 @@ const servicesSlice = createSlice({
       })
       .addCase(fetchServicesThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.list = action.payload;
+        state.list = action.payload.services;
+        state.ids = action.payload.ids;
       })
       .addCase(fetchServicesThunk.rejected, (state, action) => {
         state.loading = false;
@@ -74,6 +79,7 @@ const servicesSlice = createSlice({
       .addCase(createServiceThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.list.push(action.payload);
+        state.ids.push(action.payload.id);
       })
       .addCase(createServiceThunk.rejected, (state, action) => {
         state.loading = false;

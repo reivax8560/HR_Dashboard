@@ -5,10 +5,14 @@ export default async function handler(req, res) {
   try {
     /////////////////////////////////////////////////////////// 📖 GET ALL
     if (req.method === "GET") {
-      const { data, error } = await supabase
-        .from("services")
-        .select("*")
-        .eq("deleted", false);
+      const idsOnly = req.query.idsOnly === "true";
+      let query = supabase.from("services").select(idsOnly ? "id" : "*");
+
+      if (!idsOnly) {
+        query = query.eq("deleted", false);
+      }
+
+      const { data, error } = await query;
 
       if (error) {
         const classifiedError = classifySupabaseError(error);
@@ -23,6 +27,10 @@ export default async function handler(req, res) {
 
       if (!Array.isArray(data)) {
         throw new Error("Données invalides reçues de la base de données.");
+      }
+
+      if (idsOnly) {
+        return res.status(200).json(data.map((service) => service.id));
       }
 
       return res.status(200).json(

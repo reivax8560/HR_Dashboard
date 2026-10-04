@@ -16,6 +16,7 @@ export const services = [
   { id: 1, name: "Informatique", deleted: false },
   { id: 2, name: "Finance", deleted: false },
   { id: 3, name: "Communication", deleted: false },
+  { id: 8, name: "Ancien service", deleted: true },
 ];
 
 export const absences = [
@@ -40,7 +41,17 @@ const replyWithBody = (statusCode) => (request) => {
 
 export function stubApiRoutes() {
   cy.intercept("GET", "/api/employees", { body: employees }).as("getEmployees");
-  cy.intercept("GET", "/api/services", { body: services }).as("getServices");
+  cy.intercept("GET", "/api/services", {
+    body: services.filter((service) => !service.deleted),
+  }).as("getServices");
+  cy.intercept(
+    {
+      method: "GET",
+      pathname: "/api/services",
+      query: { idsOnly: "true" },
+    },
+    { body: services.map((service) => service.id) },
+  ).as("getServiceIds");
   cy.intercept("GET", "/api/absences", { body: absences }).as("getAbsences");
 
   cy.intercept("POST", "/api/employees", replyWithBody(201)).as(
