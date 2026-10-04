@@ -40,12 +40,12 @@ export function validateEmployeePayload(employee = {}) {
 
   return {
     id: employee.id,
-    first_name: employee.firstName.trim(),
-    last_name: employee.lastName.trim(),
+    firstName: employee.firstName.trim(),
+    lastName: employee.lastName.trim(),
     position: employee.position.trim(),
     service: employee.service.trim(),
     email: employee.email.trim(),
-    entry_date: employee.entryDate,
+    entryDate: employee.entryDate,
     status: employee.status || "actif",
   };
 }
